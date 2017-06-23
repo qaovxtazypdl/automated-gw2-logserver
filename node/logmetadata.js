@@ -1,9 +1,54 @@
 #!/usr/bin/env nodejs
-var http = require('http');
-var mysql = require('mysql');
+const http = require('http');
+const mysql = require('mysql');
+const url = require('url');
+
+const pool = mysql.createPool({
+	connectionLimit: 4,
+  host: 'localhost',
+  user: 'ro_user',
+  database: 'logs'
+});
+
+const defaultFields = ['id', 'time', 'path', 'boss', 'class', 'bosstime'];
+const validFields = new Set([
+	'id',
+	'path',
+	'time',
+	'boss',
+	'bosstime',
+	'name',
+	'guild',
+	'class',
+	'cleavedmg',
+	'bossdmg',
+	'rank',
+	'people'
+]);
 
 http.createServer(function (req, res) {
-	  res.writeHead(200, {'Content-Type': 'text/plain'});
-	  res.end('Hello World node\nedit 2\n');
+		const query = url.parse(req.url, true).query;
+		const fieldsSet = new Set(query['fields'] ?
+			query['fields']
+				.trim()
+				.split(',')
+				.map(field => encodeURIComponent(field).trim())
+				.filter(field => validFields.has(field))
+			: []
+		);
+		defaultFields.forEach(field => fieldsSet.add(field));
+
+		// implicit getall
+		const fields = [...fieldsSet].join(',');
+		const sql = `
+			SELECT ${fields}
+			FROM logmetadata
+			LIMIT 25;
+		`;
+		pool.query(sql, function (error, results, fields) {
+			if (error) throw error
+			res.writeHead(200, {'Content-Type': 'text/plain'});
+		  res.end(JSON.stringify(results));
+		});
 }).listen(8081, 'localhost');
-console.log('Server running at http://localhost:8081/');
+console.log('/api/logmetadata starting up');
