@@ -10,11 +10,10 @@ const pool = mysql.createPool({
   database: 'logs'
 });
 
-const defaultFields = ['id', 'time', 'path', 'boss', 'class', 'bosstime'];
+const defaultFields = ['id', 'DATE_FORMAT(time, \'%d/%m/%Y\') as time', 'path', 'boss', 'class', 'bosstime'];
 const validFields = new Set([
 	'id',
 	'path',
-	'time',
 	'boss',
 	'bosstime',
 	'name',

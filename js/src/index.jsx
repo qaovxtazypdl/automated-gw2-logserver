@@ -3,7 +3,11 @@ import {render} from 'react-dom';
 
 class App extends React.Component {
   render () {
-    return <p> Hello React!</p>;
+    const lol = "blach blah";
+    return <div>
+      <p>Here are all the logs recorded...</p>
+      {`${lol}`}
+    </div>;
   }
 }
 
