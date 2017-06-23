@@ -4,3 +4,5 @@ html/logs/*
 html/logs
 secrets.txt
 notes
+js/build/*
+js/build
