@@ -2,6 +2,8 @@ import React from 'react';
 import {render} from 'react-dom';
 import request from 'browser-request';
 
+import MainPage from './MainPage.jsx'
+
 const API_URL = 'https://logs.xn--jonathan.com/api/logmetadata';
 
 class App extends React.Component {
@@ -18,10 +20,7 @@ class App extends React.Component {
   }
   render () {
     if (!this.state.response) return null;
-    return <div>
-      <p>Here are all the logs recorded...</p>
-      {JSON.stringify(this.state.response)}
-    </div>;
+    return <MainPage data={this.state.response} />;
   }
 }
 

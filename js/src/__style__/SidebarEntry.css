@@ -1,0 +1,41 @@
+.rc-SidebarEntry {
+  border: 1px solid #8e8e8e;
+  background-color: transparent;
+  width: 100%;
+  height: 46px;
+  padding: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.25s ease;
+}
+
+.rc-SidebarEntry:hover, .rc-SidebarEntry.selected {
+  background-color: #f3f9ff;
+  border: 1px solid #717bc7;
+}
+
+.top-row {
+  margin-top: 1px;
+  margin-bottom: 5px;
+}
+.class-sprite {
+  padding: 18px;
+  margin-right: 10px;
+  background-color: red;
+  float: left;
+}
+.boss-dps {
+  font-weight: bold;
+}
+.time-elapsed {
+  float: right;
+}
+
+.guild-tag {
+  font-weight: bold;
+}
+
+.date-dmy {
+  float: right;
+}

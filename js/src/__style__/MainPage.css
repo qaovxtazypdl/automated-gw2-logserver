@@ -1,0 +1,60 @@
+.rc-MainPage {
+  margin: -8px;
+  overflow: hidden;
+}
+
+.page-header {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  height: 80px;
+  background-color: #f7d8bb;
+  font-family: arial;
+  padding: 20px;
+  border-bottom: 1px solid #cecece;
+}
+
+.header-title {
+  font-size: 28px;
+  width: 100%;
+  margin-top: 0px;
+  margin-bottom: 20px;
+}
+
+.boss-selector {
+  font-size: 14px;
+  margin-right: 28px;
+  background-color: transparent;
+  border-width: 0px;
+  border-bottom: 1px solid blue;
+  padding: 4px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.boss-selector:hover, .boss-selector.selected {
+  font-size: 18px;
+  font-weight: bold;
+  border-bottom: 2px solid red;
+}
+
+
+.page-sidebar {
+  position: fixed;
+  left: 0px;
+  top: 120px;
+  font-size: 14px;
+  height: 100%;
+  width: 240px;
+  background-color: #e5edf1;
+  font-family: arial;
+  padding: 1px;
+  border-right: 1px solid #cecece;
+}
+
+.page-log-display {
+  border: 0px;
+  background-color: black;
+  margin-left: 243px;
+  margin-top: 121px;
+  height: calc(100% - 105px);
+}
