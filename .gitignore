@@ -1,4 +1,5 @@
 .remote-sync.json
+**/node_modules/**
 html/logs/*
 html/logs
 secrets.txt
