@@ -22,11 +22,21 @@
   margin-bottom: 5px;
 }
 .class-sprite {
-  padding: 18px;
+  height: 36px;
+  width: 36px;
   margin-right: 10px;
-  background-color: red;
   float: left;
 }
+.boss-dps.gold {
+  color: #ffa700;
+}
+.boss-dps.silver {
+  color: #8cc6ff;
+}
+.boss-dps.bronze {
+  color: #ab621b;
+}
+
 .date-dmy {
   font-weight: bold;
 }

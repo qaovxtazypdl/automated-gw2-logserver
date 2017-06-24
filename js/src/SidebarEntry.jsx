@@ -15,19 +15,26 @@ class SidebarEntry extends React.Component {
   render () {
     const seconds = this.props.entry.bosstime;
     const mmssString = `${~~(seconds / 60)}:${seconds % 60}`;
+    const classIconLink = `/icons/${this.props.entry.class}.png`;
     return (
       <button onClick={this.props.onClick} className={classNames(
         'rc-SidebarEntry',
         {'selected': this.props.isActive}
       )}>
-        <div className="class-sprite" />
+        <img className="class-sprite" src={classIconLink} />
         <div className="top-row">
           <span className="date-dmy">{`${this.props.entry.time}`}</span>
           <span className="time-elapsed">{mmssString}</span>
         </div>
         <div className="bottom-row">
           <span className="guild-tag">{`[${this.props.entry.guild}]`}</span>
-          <span className="boss-dps">{`DPS: ${this.props.entry.bossdmg}`}</span>
+          <span className={classNames("boss-dps", {
+            gold: this.props.entry.rank == 1,
+            silver: this.props.entry.rank == 2,
+            bronze: this.props.entry.rank == 3,
+          })}>
+            {`DPS: ${this.props.entry.bossdmg}`}
+          </span>
         </div>
       </button>
     );
