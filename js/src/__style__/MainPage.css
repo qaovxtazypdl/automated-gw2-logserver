@@ -18,7 +18,7 @@
   font-size: 28px;
   width: 100%;
   margin-top: 0px;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .boss-selector {
@@ -41,7 +41,7 @@
 .page-sidebar {
   position: fixed;
   left: 0px;
-  top: 120px;
+  top: 121px;
   font-size: 14px;
   height: 100%;
   width: 240px;
@@ -57,4 +57,10 @@
   margin-left: 243px;
   margin-top: 121px;
   height: calc(100% - 105px);
+  color: white;
+}
+
+.log-iframe {
+  height: 100%;
+  width: 100%;
 }

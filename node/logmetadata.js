@@ -42,6 +42,7 @@ http.createServer(function (req, res) {
 		const sql = `
 			SELECT ${fields}
 			FROM logmetadata
+			WHERE boss="${query['boss']}"
 			LIMIT 25;
 		`;
 		pool.query(sql, function (error, results, fields) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import css from './__style__/SidebarEntry.css'
 
@@ -12,16 +13,21 @@ class SidebarEntry extends React.Component {
   }
 
   render () {
+    const seconds = this.props.entry.bosstime;
+    const mmssString = `${~~(seconds / 60)}:${seconds % 60}`;
     return (
-      <button className="rc-SidebarEntry">
+      <button onClick={this.props.onClick} className={classNames(
+        'rc-SidebarEntry',
+        {'selected': this.props.isActive}
+      )}>
         <div className="class-sprite" />
         <div className="top-row">
-          <span className="boss-dps">12345</span>
-          <span className="time-elapsed">10:00</span>
+          <span className="date-dmy">{`${this.props.entry.time}`}</span>
+          <span className="time-elapsed">{mmssString}</span>
         </div>
         <div className="bottom-row">
-          <span className="guild-tag">{'[LUCK]'}</span>
-          <span className="date-dmy">{'23/11/2017'}</span>
+          <span className="guild-tag">{`[${this.props.entry.guild}]`}</span>
+          <span className="boss-dps">{`DPS: ${this.props.entry.bossdmg}`}</span>
         </div>
       </button>
     );
@@ -30,5 +36,7 @@ class SidebarEntry extends React.Component {
 
 SidebarEntry.propTypes = {
   entry: PropTypes.object.isRequired,
+  onClick: PropTypes.func.isRequired,
+  isActive: PropTypes.bool,
 };
 module.exports = SidebarEntry;

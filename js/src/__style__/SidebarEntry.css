@@ -1,6 +1,6 @@
 .rc-SidebarEntry {
   border: 1px solid #8e8e8e;
-  background-color: transparent;
+  background-color: #f9fafb;
   width: 100%;
   height: 46px;
   padding: 4px;
@@ -8,11 +8,13 @@
   cursor: pointer;
   text-align: left;
   transition: all 0.25s ease;
+  margin-bottom: 1px;
 }
 
 .rc-SidebarEntry:hover, .rc-SidebarEntry.selected {
-  background-color: #f3f9ff;
+  background-color: #f7e1d4;
   border: 1px solid #717bc7;
+  margin-left: 25px;
 }
 
 .top-row {
@@ -25,7 +27,7 @@
   background-color: red;
   float: left;
 }
-.boss-dps {
+.date-dmy {
   font-weight: bold;
 }
 .time-elapsed {
@@ -36,6 +38,6 @@
   font-weight: bold;
 }
 
-.date-dmy {
+.boss-dps {
   float: right;
 }
