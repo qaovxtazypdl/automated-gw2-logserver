@@ -7,7 +7,7 @@
   position: fixed;
   top: 0px;
   width: 100%;
-  height: 80px;
+  height: 110px;
   background-color: #f7d8bb;
   font-family: arial;
   padding: 20px;
@@ -21,7 +21,8 @@
   margin-bottom: 16px;
 }
 
-.boss-selector {
+.boss-selector,
+.guild-selector {
   font-size: 14px;
   margin-right: 28px;
   background-color: transparent;
@@ -31,7 +32,8 @@
   cursor: pointer;
   transition: all 0.25s ease;
 }
-.boss-selector:hover, .boss-selector.selected {
+.boss-selector:hover, .boss-selector.selected,
+.guild-selector:hover, .guild-selector.selected {
   font-size: 18px;
   font-weight: bold;
   border-bottom: 2px solid red;
@@ -41,7 +43,7 @@
 .page-sidebar {
   position: fixed;
   left: 0px;
-  top: 121px;
+  top: 151px;
   font-size: 14px;
   height: 100%;
   width: 240px;
@@ -55,8 +57,8 @@
   border: 0px;
   background-color: black;
   margin-left: 243px;
-  margin-top: 121px;
-  height: calc(100% - 105px);
+  margin-top: 151px;
+  height: calc(100% - 135px);
   color: white;
 }
 

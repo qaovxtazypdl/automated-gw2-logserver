@@ -39,12 +39,16 @@ function handleGET(req, res) {
 
 		// implicit getall
 		const fields = [...fieldsSet].join(',');
+		let where = `WHERE 1=1`
+		if (query['guild']) {
+			where += ` AND guild="${encodeURIComponent(query['guild'])}"`;
+		}
 		const sql = `
 			SELECT ${fields}
 			FROM logmetadata
-			WHERE boss="${encodeURIComponent(query['boss'])}"
+			${where}
 			ORDER BY time DESC
-			LIMIT 25;
+			LIMIT 50;
 		`;
 
 		pool.query(sql, function (error, results, fields) {
