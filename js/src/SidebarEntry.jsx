@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
-import css from './__style__/SidebarEntry.css'
+import css from './__style__/SidebarEntry.css';
 
 class SidebarEntry extends React.Component {
   constructor(props) {

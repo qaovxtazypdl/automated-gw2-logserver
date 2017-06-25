@@ -3,11 +3,12 @@ import {render} from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import url from 'url';
+import {Redirect} from 'react-router'
 import request from 'browser-request';
 
 import SidebarEntry from './SidebarEntry.jsx';
 
-import css from './__style__/MainPage.css'
+import css from './__style__/MainPage.css';
 
 const BOSSES = {
   "All": "All",
@@ -40,12 +41,44 @@ const API_URL = 'https://logs.xn--jonathan.com/api/logmetadata';
 class MainPage extends React.Component {
   constructor(props) {
     super(props);
+
+    const {guild, boss} = this.props.match.params;
+    if (this.getActiveGuildIndex(guild) === -1 || this.getActiveTabIndex(boss) === -1) {
+      this.props.history.push('/404');
+    }
+
     this.state = {
-      active_guild: 0,
-      active_tab: 0,
-      active_log: -1,
       data: {},
     };
+  }
+
+  getFilteredLogs() {
+    const allLogs = this.state.data[this.getActiveGuildIndex()];
+    return allLogs ?
+      (this.getActiveTabIndex() === 0 ?
+        allLogs :
+        allLogs.filter(
+          guild_entry => guild_entry.boss === BOSSES[Object.keys(BOSSES)[this.getActiveTabIndex()]]
+        ))
+      : [];
+  }
+
+  getActiveGuildIndex() {
+    return GUILDS.map(g => g.toLowerCase()).indexOf(this.props.match.params.guild.toLowerCase());
+  }
+
+  getActiveTabIndex() {
+    return Object.keys(BOSSES).map(b => b.toLowerCase()).indexOf(this.props.match.params.boss.toLowerCase());
+  }
+
+  getActiveLogIndex() {
+    if (!this.props.match.params.log || !this.state.data || !this.state.data[this.getActiveGuildIndex()]) {
+      return -1;
+    }
+
+    return this.getFilteredLogs().findIndex(entry =>
+      entry.path.split('.')[0].toLowerCase() == this.props.match.params.log.toLowerCase()
+    )
   }
 
   requestTab(guildIndex) {
@@ -80,42 +113,24 @@ class MainPage extends React.Component {
   }
 
   componentDidMount() {
-    this.requestTab(0);
+    this.requestTab(this.getActiveGuildIndex());
   }
 
   onGuildClick(guildIndex) {
-    this.setState({
-      active_guild: guildIndex,
-      active_log: -1,
-    });
+    this.props.history.push(`/${GUILDS[guildIndex]}/${this.props.match.params.boss}`);
     this.requestTab(guildIndex);
   }
 
   onTabClick(tabIndex) {
-    this.setState({
-      active_tab: tabIndex,
-      active_log: -1,
-    });
+    this.props.history.push(`/${this.props.match.params.guild}/${Object.keys(BOSSES)[tabIndex]}`);
   }
 
-  onLogClick(logIndex) {
-    this.setState({
-      active_log: logIndex,
-    });
+  onLogClick(filteredLogs, logIndex) {
+    this.props.history.push(`/${this.props.match.params.guild}/${this.props.match.params.boss}/${filteredLogs[logIndex].path.split('.')[0]}`);
   }
 
   render () {
-    const bossSelectorClassNames = classNames('boss-selector',
-      {'selected':true}
-    );
-    const allLogs = this.state.data[this.state.active_guild];
-    const filteredLogs = allLogs ?
-      (this.state.active_tab === 0 ?
-        allLogs :
-        allLogs.filter(
-          guild_ent => guild_ent.boss === BOSSES[Object.keys(BOSSES)[this.state.active_tab]]
-        ))
-      : [];
+    const filteredLogs = this.getFilteredLogs();
     return (
       <div className="rc-MainPage">
         <nav className="page-header">
@@ -129,7 +144,7 @@ class MainPage extends React.Component {
                 onClick={() => this.onGuildClick(index)}
                 className={classNames(
                   'guild-selector',
-                  {'selected': index === this.state.active_guild}
+                  {'selected': index === this.getActiveGuildIndex()}
                 )}
               >
                 {name}
@@ -143,7 +158,7 @@ class MainPage extends React.Component {
                 onClick={() => this.onTabClick(index)}
                 className={classNames(
                   'boss-selector',
-                  {'selected': index === this.state.active_tab}
+                  {'selected': index === this.getActiveTabIndex()}
                 )}
               >
                 {name}
@@ -158,8 +173,8 @@ class MainPage extends React.Component {
               <SidebarEntry
                 key={entry.id}
                 entry={entry}
-                onClick={() => this.onLogClick(index)}
-                isActive={this.state.active_log == index}
+                onClick={() => this.onLogClick(filteredLogs, index)}
+                isActive={this.getActiveLogIndex() == index}
               />
             ) :
             <p>
@@ -168,10 +183,10 @@ class MainPage extends React.Component {
           }
         </nav>
         <section className="page-log-display">
-          {this.state.active_log >= 0 && filteredLogs.length > 0 &&
+          {this.getActiveLogIndex() >= 0 && filteredLogs.length > 0 &&
             <iframe
               className="log-iframe"
-              src={`/logs/${filteredLogs[this.state.active_log].path}`}
+              src={`/logs/${filteredLogs[this.getActiveLogIndex()].path}`}
             />
           }
         </section>
@@ -180,4 +195,7 @@ class MainPage extends React.Component {
   }
 }
 
+MainPage.propTypes = {
+  match: PropTypes.object.isRequired,
+};
 export default MainPage
