@@ -40,7 +40,8 @@ SidebarEntry.propTypes = {
   onClick: PropTypes.func.isRequired,
   isActive: PropTypes.bool,
 };
-module.exports = SidebarEntry;
+
+export default SidebarEntry
 
 /*
 <span className={classNames("boss-dps", {

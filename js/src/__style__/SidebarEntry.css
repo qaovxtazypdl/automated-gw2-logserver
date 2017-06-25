@@ -14,7 +14,6 @@
 .rc-SidebarEntry:hover, .rc-SidebarEntry.selected {
   background-color: #f7e1d4;
   border: 1px solid #717bc7;
-  margin-left: 25px;
 }
 
 .top-row {

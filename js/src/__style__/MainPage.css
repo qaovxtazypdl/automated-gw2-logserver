@@ -1,6 +1,5 @@
 .rc-MainPage {
   margin: -8px;
-  overflow: hidden;
 }
 
 .page-header {
@@ -11,7 +10,7 @@
   background-color: #f7d8bb;
   font-family: arial;
   padding: 20px;
-  border-bottom: 1px solid #cecece;
+  border-bottom: 1px solid #8e8e8e;
 }
 
 .header-title {
@@ -45,12 +44,14 @@
   left: 0px;
   top: 151px;
   font-size: 14px;
-  height: 100%;
+  height: calc(100% - 151px);
   width: 240px;
   background-color: #e5edf1;
   font-family: arial;
   padding: 1px;
   border-right: 1px solid #cecece;
+  overflow-y: overlay;
+  overflow-x: hidden;
 }
 
 .page-log-display {
@@ -65,4 +66,5 @@
 .log-iframe {
   height: 100%;
   width: 100%;
+  border: 0px;
 }

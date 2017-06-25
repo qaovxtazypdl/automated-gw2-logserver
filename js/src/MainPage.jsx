@@ -180,4 +180,4 @@ class MainPage extends React.Component {
   }
 }
 
-module.exports = MainPage;
+export default MainPage
