@@ -25,8 +25,9 @@ guild_tag_map = {
     'Thank Mr Goose': 'HONK',
     'The Essence Of': 'LUCK',
     'Silver Kings And Golden Queens': 'SKGQ',
-    'Very Innovative Players': 'bash',
-    'Pure Dragons Fire': 'PDF',
+    'Bourne Again': 'bash',
+    'Avantosik': 'Heim',
+    'Verucas Illusion': 'VI',
 }
 
 subprocess.call([
@@ -39,7 +40,7 @@ boss_name, char_name, guild_name, file_evtc = sys.argv[1].split('\\');
 if (guild_name in guild_tag_map):
     guild_name = guild_tag_map[guild_name];
 else:
-    guild_name = '???'
+    guild_name = 'null'
 
 if (boss_name in boss_code_map) :
     #scp the generated file
@@ -61,12 +62,29 @@ if (boss_name in boss_code_map) :
 
     if (boss_name != 'Massive Kitty Golem') :
         print('uploading...\n\r')
+        print(' '.join([
+            'rsync',
+            '-vz',
+            '--chmod=u+rwx,g+rwx,o+rwx',
+            '-e', '"ssh -i ~/.ssh/id_rsa"',
+            file_name,
+            'root@logs.xn--jonathan.com:/var/www/logs/html/logs'
+        ]))
+
         subprocess.call(
-            ['scp', '-i', 'C:\\Users\\Jonathan\\.ssh\\id_rsa', file_name, 'root@logs.xn--jonathan.com:/var/www/logs/html/logs'],
-            cwd='X:\\Documents\\arcdps\\autoparse\\'
+            [
+                'rsync',
+                '-vz',
+                '--chmod=u+rwx,g+rwx,o+rwx',
+                '-e', 'ssh -i C:/Users/Jonathan/.ssh/id_rsa',
+                file_name,
+                'root@logs.xn--jonathan.com:/var/www/logs/html/logs'
+            ],
+            cwd='X:\\Documents\\arcdps\\autoparse\\',
+            shell=True
         )
 
-        print('PUT-ing');
+        print('\n\rPUT-ing');
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         r = requests.put('https://logs.xn--jonathan.com/api/logmetadata', data=json.dumps(logmetadata), headers=headers)
         print('PUT response: ' + str(r))

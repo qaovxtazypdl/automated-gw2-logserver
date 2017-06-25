@@ -49,11 +49,15 @@ class MainPage extends React.Component {
     });
     request(url.format(requestUrl), (er, res) => {
       if (er) throw er;
+      let response = JSON.parse(res.response);
+      response.forEach(entry =>
+        Object.keys(entry).forEach(key => entry[key] = decodeURIComponent(entry[key]))
+      );
       this.setState({
         data: Object.assign(
           {},
           this.state.data,
-          {[tabIndex]: JSON.parse(res.response)}
+          {[tabIndex]: response}
         ),
       });
     });

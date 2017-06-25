@@ -48,6 +48,6 @@
   font-weight: bold;
 }
 
-.boss-dps {
+.boss-dps, .boss-name {
   float: right;
 }

@@ -43,6 +43,7 @@ function handleGET(req, res) {
 			SELECT ${fields}
 			FROM logmetadata
 			WHERE boss="${encodeURIComponent(query['boss'])}"
+			ORDER BY time DESC
 			LIMIT 25;
 		`;
 

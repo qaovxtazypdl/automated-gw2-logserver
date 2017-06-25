@@ -28,13 +28,7 @@ class SidebarEntry extends React.Component {
         </div>
         <div className="bottom-row">
           <span className="guild-tag">{`[${this.props.entry.guild}]`}</span>
-          <span className={classNames("boss-dps", {
-            gold: this.props.entry.rank == 1,
-            silver: this.props.entry.rank == 2,
-            bronze: this.props.entry.rank == 3,
-          })}>
-            {`DPS: ${this.props.entry.bossdmg}`}
-          </span>
+          <span className="boss-name">{`${this.props.entry.boss}`}</span>
         </div>
       </button>
     );
@@ -47,3 +41,13 @@ SidebarEntry.propTypes = {
   isActive: PropTypes.bool,
 };
 module.exports = SidebarEntry;
+
+/*
+<span className={classNames("boss-dps", {
+  gold: this.props.entry.rank == 1,
+  silver: this.props.entry.rank == 2,
+  bronze: this.props.entry.rank == 3,
+})}>
+  {`DPS: ${this.props.entry.bossdmg}`}
+</span>
+*/
