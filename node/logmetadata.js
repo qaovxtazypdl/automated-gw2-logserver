@@ -6,7 +6,7 @@ const url = require('url');
 const pool = mysql.createPool({
 	connectionLimit: 4,
   host: 'localhost',
-  user: 'ro_user',
+  user: 'rw_user',
   database: 'logs'
 });
 
@@ -25,13 +25,13 @@ const validFields = new Set([
 	'people'
 ]);
 
-http.createServer(function (req, res) {
+function handleGET(req, res) {
 		const query = url.parse(req.url, true).query;
 		const fieldsSet = new Set(query['fields'] ?
 			query['fields']
 				.trim()
 				.split(',')
-				.map(field => encodeURIComponent(field).trim())
+				.map(field => encodeURIComponent(field.trim()))
 				.filter(field => validFields.has(field))
 			: []
 		);
@@ -42,13 +42,67 @@ http.createServer(function (req, res) {
 		const sql = `
 			SELECT ${fields}
 			FROM logmetadata
-			WHERE boss="${query['boss']}"
+			WHERE boss="${encodeURIComponent(query['boss'])}"
 			LIMIT 25;
 		`;
+
 		pool.query(sql, function (error, results, fields) {
-			if (error) throw error
+			if (error) {
+				res.writeHead(500, {'Content-Type': 'text/plain'});
+				res.end("Something went wrong internally.");
+				throw error;
+			}
 			res.writeHead(200, {'Content-Type': 'text/plain'});
-		  res.end(JSON.stringify(results));
+			res.end(JSON.stringify(results));
 		});
+}
+
+function handlePUT(req, res) {
+	var body = [];
+	req.on('data', function(chunk) {
+	  body.push(chunk);
+	}).on('end', function() {
+	  body = Buffer.concat(body).toString();
+		const data = JSON.parse(body);
+		Object.keys(data).forEach(key => data[key] = encodeURIComponent(data[key]));
+
+		const sql = `
+			INSERT INTO logmetadata(path,time,boss,bosstime,name,guild,class,cleavedmg,bossdmg,rank,people)
+			VALUES (
+				"${data['path']}",
+				NOW(),
+				"${data['boss']}",
+				${data['bosstime']},
+				"${data['name']}",
+				"${data['guild']}",
+				"${data['class']}",
+				${data['cleavedmg']},
+				${data['bossdmg']},
+				${data['rank']},
+				${data['people']}
+			);
+		`;
+
+		pool.query(sql, function (error, results, fields) {
+			if (error) {
+				res.writeHead(500, {'Content-Type': 'text/plain'});
+				res.end("Something went wrong internally.");
+				throw error;
+			}
+			res.writeHead(201, {'Content-Type': 'text/plain'});
+			res.end("Created");
+		});
+	});
+}
+
+http.createServer(function (req, res) {
+		if (req.method === "GET") {
+			return handleGET(req, res);
+		} else if (req.method === "PUT") {
+			return handlePUT(req, res);
+		} else {
+			res.writeHead(405, {'Content-Type': 'text/plain'});
+		  res.end(`Method ${req.method} not supported.`);
+		}
 }).listen(8081, 'localhost');
 console.log('/api/logmetadata starting up');
