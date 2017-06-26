@@ -59,6 +59,7 @@ else:
 
 if (boss_name in boss_code_map) :
     #scp the generated file
+    time_created = file_evtc.split('.')[0];
     file_name = file_evtc.split('.')[0] + '_' + boss_code_map[boss_name] + '.html'
 
     data = rs.scrape_file(char_name, 'X:\\Documents\\arcdps\\autoparse\\' + file_name)
@@ -68,6 +69,7 @@ if (boss_name in boss_code_map) :
         'boss': boss_name,
         'name': char_name,
         'guild': guild_name,
+        'time': time_created,
 
         'bosstime': data['bosstime'],
         'class': data['class'],

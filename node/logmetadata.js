@@ -92,7 +92,7 @@ function handlePUT(req, res) {
 			INSERT INTO logmetadata(path,time,boss,bosstime,name,guild,class,cleavedmg,bossdmg,rank,people,success)
 			VALUES (
 				"${data['path']}",
-				NOW(),
+				STR_TO_DATE("${data['time']}", "%Y%m%d-%H%i%s"),
 				"${data['boss']}",
 				${data['bosstime']},
 				"${data['name']}",

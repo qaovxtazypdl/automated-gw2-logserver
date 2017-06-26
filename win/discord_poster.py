@@ -38,15 +38,15 @@ async def on_ready():
 
 async def post_message(message):
     return await client.send_message(
-        #discord.utils.get(client.get_all_channels(), server__name=SERVER_NAME, name=TEXT_CHANNEL_NAME),
-        discord.utils.get(client.get_all_channels(), server__name=TEST_SERVER_NAME, name=TEXT_CHANNEL_NAME),
+        discord.utils.get(client.get_all_channels(), server__name=SERVER_NAME, name=TEXT_CHANNEL_NAME),
+        #discord.utils.get(client.get_all_channels(), server__name=TEST_SERVER_NAME, name=TEXT_CHANNEL_NAME),
         message,
     )
 
 async def send_voice_heckle(filename):
     vc = await client.join_voice_channel(
-        #discord.utils.get(client.get_all_channels(), server__name=SERVER_NAME, name=VOICE_CHANNEL_NAME),
-        discord.utils.get(client.get_all_channels(), server__name=TEST_SERVER_NAME, name=VOICE_CHANNEL_NAME),
+        discord.utils.get(client.get_all_channels(), server__name=SERVER_NAME, name=VOICE_CHANNEL_NAME),
+        #discord.utils.get(client.get_all_channels(), server__name=TEST_SERVER_NAME, name=VOICE_CHANNEL_NAME),
     )
 
     player = vc.create_ffmpeg_player(filename, options="-af \"volume=0.15\"")
