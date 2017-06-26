@@ -30,7 +30,7 @@ const GUILDS = [
   'SKGQ',
   'VIP',
   'KA',
-  'VFX',
+  // 'VFX',
   // 'bash',
   // 'Heim',
   // 'VI',

@@ -6,7 +6,7 @@ from datetime import datetime
 
 do_play_sound = True
 do_message = True
-use_test_server = True
+use_test_server = False
 
 message_to_be_posted = 'test'
 soundfile_to_play = ''
@@ -55,7 +55,7 @@ async def send_voice_heckle(filename):
         discord.utils.get(client.get_all_channels(), server__name=USE_SERVER_NAME, name=VOICE_CHANNEL_NAME),
     )
 
-    player = vc.create_ffmpeg_player(filename, options="-af \"volume=0.15\"")
+    player = vc.create_ffmpeg_player(filename, options="-af \"volume=0.25\"")
     player.start()
     await asyncio.sleep(10)
     await vc.disconnect()
