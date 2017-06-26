@@ -2,6 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import {Link} from 'react-router-dom'
 
 import css from './__style__/SidebarEntry.css';
 
@@ -17,8 +18,9 @@ class SidebarEntry extends React.Component {
     const mmssString = `${~~(seconds / 60)}:${seconds % 60}`;
     const classIconLink = `/icons/${this.props.entry.class}.png`;
     return (
-      <button onClick={this.props.onClick} className={classNames(
+      <Link to={this.props.linkto} className={classNames(
         'rc-SidebarEntry',
+        'link-as-button',
         {'selected': this.props.isActive}
       )}>
         <img className="class-sprite" src={classIconLink} />
@@ -30,7 +32,7 @@ class SidebarEntry extends React.Component {
           <span className="guild-tag">{`[${this.props.entry.guild}]`}</span>
           <span className="boss-name">{`${this.props.entry.boss}`}</span>
         </div>
-      </button>
+      </Link>
     );
   }
 }
@@ -38,6 +40,7 @@ class SidebarEntry extends React.Component {
 SidebarEntry.propTypes = {
   entry: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
+  linkto: PropTypes.string.isRequired,
   isActive: PropTypes.bool,
 };
 

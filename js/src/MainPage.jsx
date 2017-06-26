@@ -3,7 +3,7 @@ import {render} from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import url from 'url';
-import {Redirect} from 'react-router'
+import {Link} from 'react-router-dom'
 import request from 'browser-request';
 
 import SidebarEntry from './SidebarEntry.jsx';
@@ -82,7 +82,7 @@ class MainPage extends React.Component {
   }
 
   requestTab(guildIndex) {
-    if (this.state.data && !!this.state.data[guildIndex]) {
+    if (this.state.data && this.state.data[guildIndex]) {
       return;
     }
 
@@ -116,20 +116,8 @@ class MainPage extends React.Component {
     this.requestTab(this.getActiveGuildIndex());
   }
 
-  onGuildClick(guildIndex) {
-    this.props.history.push(`/${GUILDS[guildIndex]}/${this.props.match.params.boss}`);
-    this.requestTab(guildIndex);
-  }
-
-  onTabClick(tabIndex) {
-    this.props.history.push(`/${this.props.match.params.guild}/${Object.keys(BOSSES)[tabIndex]}`);
-  }
-
-  onLogClick(filteredLogs, logIndex) {
-    this.props.history.push(`/${this.props.match.params.guild}/${this.props.match.params.boss}/${filteredLogs[logIndex].path.split('.')[0]}`);
-  }
-
   render () {
+    this.requestTab(this.getActiveGuildIndex());
     const filteredLogs = this.getFilteredLogs();
     return (
       <div className="rc-MainPage">
@@ -137,32 +125,40 @@ class MainPage extends React.Component {
           <h2 className="header-title">
             {'KCaScTiVCrMn.6453\'s Automated Log Server'}
           </h2>
-          <div>
+          <a
+            href="https://github.com/qaovxtazypdl/automated-gw2-logserver"
+            className="github-link"
+          >
+            {'github'}
+          </a>
+          <div className="guild-row">
             {GUILDS.map((name, index) => (
-              <button
+              <Link
                 key={name}
-                onClick={() => this.onGuildClick(index)}
+                to={`/${GUILDS[index]}/${this.props.match.params.boss}`}
                 className={classNames(
                   'guild-selector',
+                  'link-as-button',
                   {'selected': index === this.getActiveGuildIndex()}
                 )}
               >
                 {name}
-              </button>
+              </Link>
             ))}
           </div>
           <div>
             {Object.keys(BOSSES).map((name, index) => (
-              <button
+              <Link
                 key={name}
-                onClick={() => this.onTabClick(index)}
+                to={`/${this.props.match.params.guild}/${Object.keys(BOSSES)[index]}`}
                 className={classNames(
                   'boss-selector',
+                  'link-as-button',
                   {'selected': index === this.getActiveTabIndex()}
                 )}
               >
                 {name}
-              </button>
+              </Link>
             ))}
           </div>
         </nav>
@@ -173,7 +169,7 @@ class MainPage extends React.Component {
               <SidebarEntry
                 key={entry.id}
                 entry={entry}
-                onClick={() => this.onLogClick(filteredLogs, index)}
+                linkto={`/${this.props.match.params.guild}/${this.props.match.params.boss}/${filteredLogs[index].path.split('.')[0]}`}
                 isActive={this.getActiveLogIndex() == index}
               />
             ) :
