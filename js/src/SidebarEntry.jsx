@@ -15,7 +15,7 @@ class SidebarEntry extends React.Component {
 
   render () {
     const seconds = this.props.entry.bosstime;
-    const mmssString = `${~~(seconds / 60)}:${seconds % 60}`;
+    const mmssString = `${~~(seconds / 60)}:${(seconds % 60 < 10 ? '0' : '') + seconds % 60}`;
     const classIconLink = `/icons/${this.props.entry.class}.png`;
     return (
       <Link to={this.props.linkto} className={classNames(
@@ -30,7 +30,10 @@ class SidebarEntry extends React.Component {
         </div>
         <div className="bottom-row">
           <span className="guild-tag">{`[${this.props.entry.guild}]`}</span>
-          <span className="boss-name">{`${this.props.entry.boss}`}</span>
+          <span className={classNames(
+            'boss-name',
+            {'success': this.props.entry.success === "1"}
+          )}>{`${this.props.entry.boss}`}</span>
         </div>
       </Link>
     );

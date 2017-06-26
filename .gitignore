@@ -6,3 +6,5 @@ secrets.txt
 notes
 js/build/*
 js/build
+win/__pycache__
+win/__pycache__/*

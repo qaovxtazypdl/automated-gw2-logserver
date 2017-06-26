@@ -10,7 +10,7 @@ const pool = mysql.createPool({
   database: 'logs'
 });
 
-const defaultFields = ['id', 'DATE_FORMAT(time, \'%d/%m/%Y\') as time', 'path', 'boss', 'class', 'bosstime'];
+const defaultFields = ['id', 'DATE_FORMAT(time, \'%d/%m/%Y %h:%i\') as time', 'path', 'boss', 'class', 'bosstime'];
 const validFields = new Set([
 	'id',
 	'path',
@@ -22,7 +22,8 @@ const validFields = new Set([
 	'cleavedmg',
 	'bossdmg',
 	'rank',
-	'people'
+	'people',
+	'success',
 ]);
 
 function handleGET(req, res) {
@@ -72,7 +73,7 @@ function handlePUT(req, res) {
 		Object.keys(data).forEach(key => data[key] = encodeURIComponent(data[key]));
 
 		const sql = `
-			INSERT INTO logmetadata(path,time,boss,bosstime,name,guild,class,cleavedmg,bossdmg,rank,people)
+			INSERT INTO logmetadata(path,time,boss,bosstime,name,guild,class,cleavedmg,bossdmg,rank,people,success)
 			VALUES (
 				"${data['path']}",
 				NOW(),
@@ -84,7 +85,8 @@ function handlePUT(req, res) {
 				${data['cleavedmg']},
 				${data['bossdmg']},
 				${data['rank']},
-				${data['people']}
+				${data['people']},
+				${data['success']}
 			);
 		`;
 

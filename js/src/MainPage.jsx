@@ -82,14 +82,16 @@ class MainPage extends React.Component {
   }
 
   requestTab(guildIndex) {
-    if (this.state.data && this.state.data[guildIndex]) {
+    if (this.isRequesting || (this.state.data && this.state.data[guildIndex])) {
       return;
     }
+
+    this.isRequesting = true;
 
     // if needs to be populated, make the API call.
     const requestUrl = Object.assign({}, url.parse(API_URL), {
       query: {
-        fields: 'id,time,path,boss,bosstime,guild,class,bossdmg,rank',
+        fields: 'id,time,path,boss,bosstime,guild,class,bossdmg,rank,success',
       }
     });
     if (guildIndex !== 0) {
@@ -109,6 +111,7 @@ class MainPage extends React.Component {
           {[guildIndex]: response}
         ),
       });
+      this.isRequesting = false;
     });
   }
 

@@ -2,6 +2,8 @@ import subprocess
 import sys
 import requests
 import json
+import raidheroes_scraper as rs
+import time
 
 boss_code_map = {
     'Massive Kitty Golem': 'golem',
@@ -30,8 +32,12 @@ guild_tag_map = {
     'Verucas Illusion': 'VI',
 }
 
+print('New file acknowledged: ' + sys.argv[1])
+
+time.sleep(10)
+
 subprocess.call([
-    'raid_heroes.exe',
+    'X:\\Documents\\arcdps\\autoparse\\raid_heroes.exe',
     'X:\\Documents\\arcdps\\arcdps.cbtlogs\\' + sys.argv[1]
 ], cwd='X:\\Documents\\arcdps\\autoparse\\')
 
@@ -46,18 +52,21 @@ if (boss_name in boss_code_map) :
     #scp the generated file
     file_name = file_evtc.split('.')[0] + '_' + boss_code_map[boss_name] + '.html'
 
+    data = rs.scrape_file(char_name, 'X:\\Documents\\arcdps\\autoparse\\' + file_name)
+
     logmetadata = {
         'path': file_name,
         'boss': boss_name,
         'name': char_name,
         'guild': guild_name,
 
-        'bosstime': 1,
-        'class': 1,
-        'cleavedmg': 1,
-        'bossdmg': 1,
-        'rank': 1,
-        'people': 1,
+        'bosstime': data['bosstime'],
+        'class': data['class'],
+        'cleavedmg': data['cleavedmg'],
+        'bossdmg': data['bossdmg'],
+        'rank': data['rank'],
+        'people': data['people'],
+        'success': 1 if data['success'] else 0,
     }
 
     if (boss_name != 'Massive Kitty Golem') :
@@ -88,6 +97,12 @@ if (boss_name in boss_code_map) :
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         r = requests.put('https://logs.xn--jonathan.com/api/logmetadata', data=json.dumps(logmetadata), headers=headers)
         print('PUT response: ' + str(r))
+
+    if (data['success']):
+        print('Successful Boss Attempt.')
+    else:
+        print('Unsuccessful Boss Attempt.')
+
 
     print(str(logmetadata))
 

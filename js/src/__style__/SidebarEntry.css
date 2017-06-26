@@ -56,5 +56,10 @@
 }
 
 .boss-dps, .boss-name {
+  color: red;
   float: right;
+}
+
+.boss-dps.success, .boss-name.success {
+  color: green;
 }
