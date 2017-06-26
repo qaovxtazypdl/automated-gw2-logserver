@@ -26,6 +26,21 @@ const validFields = new Set([
 	'success',
 ]);
 
+const BOSS_URL_SHORT = {
+  "All": "All",
+  "Vale Guardian": "Vale Guardian",
+  "Gorseval the Multifarious": "Gorseval",
+  "Sabetha the Saboteur": "Sabethar",
+  "Slothasor": "Slothasor",
+  "Matthias Gabrel": "Matthias",
+  "Keep Construct": "Keep Construct",
+  "Xera": "Xera",
+  "Cairn the Indomitable": "Cairn",
+  "Mursaat Overseer": "Mursaat Overseer",
+  "Samarog": "Samarog",
+  "Deimos": "Deimos",
+};
+
 function handleGET(req, res) {
 		const query = url.parse(req.url, true).query;
 		const fieldsSet = new Set(query['fields'] ?
@@ -70,6 +85,7 @@ function handlePUT(req, res) {
 	}).on('end', function() {
 	  body = Buffer.concat(body).toString();
 		const data = JSON.parse(body);
+		const boss_url_short = encodeURIComponent(BOSS_URL_SHORT[data['boss']] || 'all');
 		Object.keys(data).forEach(key => data[key] = encodeURIComponent(data[key]));
 
 		const sql = `
@@ -96,8 +112,12 @@ function handlePUT(req, res) {
 				res.end("Something went wrong internally.");
 				throw error;
 			}
-			res.writeHead(201, {'Content-Type': 'text/plain'});
-			res.end("Created");
+			res.writeHead(201, {'Content-Type': 'application/json'});
+
+			res.end(`[
+				"https://logs.xn--jonathan.com/${data['guild']}/${boss_url_short}/${data['path'].split('.html')[0]}",
+				"https://logs.xn--jonathan.com/logs/${data['path']}"
+			]`);
 		});
 	});
 }

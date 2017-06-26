@@ -108,18 +108,21 @@ if (boss_name in boss_code_map) :
 
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         r = requests.put('https://logs.xn--jonathan.com/api/logmetadata', data=json.dumps(logmetadata), headers=headers)
+
         print('PUT response: ' + str(r))
-        print(r.text)
+        print('PUT response: ' + r.text)
+        logLink = json.loads(r.text)[0];
+        print(logLink)
 
     print('')
     if (data['success']):
         print('Successful Boss Attempt. Heckling discord if [LUCK].')
         if guild_name == 'LUCK':
-            dp.win(boss_name)
+            dp.win(boss_name, logLink)
     else:
         print('Unsuccessful Boss Attempt. Heckling discord if [LUCK].')
         if guild_name == 'LUCK':
-            dp.lose(boss_name)
+            dp.lose(boss_name, logLink)
 
 
 

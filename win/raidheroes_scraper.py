@@ -38,6 +38,6 @@ def scrape_file(charname, filename):
     result['rank'] = index
     result['people'] = lines
     totaldps = int(relevant_lines[index-1][4][relevant_lines[index-1][4][:-1].index('title="') + 7:relevant_lines[index-1][4][:-1].index(' dmg"')])
-    result['bosstime'] = round(totaldps / result['bossdmg'])
+    result['bosstime'] = 0 if result['bossdmg'] == 0 else round(totaldps / result['bossdmg'])
     result['success'] = is_success
     return result

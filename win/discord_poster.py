@@ -23,10 +23,6 @@ async def on_ready():
     print(discord.utils.get(client.get_all_channels(), server__name=SERVER_NAME, name=TEXT_CHANNEL_NAME))
     print(discord.utils.get(client.get_all_channels(), server__name=SERVER_NAME, name=VOICE_CHANNEL_NAME))
 
-    print('Channel clearance by id:')
-    print(client.get_channel(328926290239553537));
-    print(client.get_channel(328930283678334976));
-
     print('')
 
     print('Posting Message...')
@@ -59,18 +55,18 @@ async def send_voice_heckle(filename):
     await vc.disconnect()
 
 
-def win(boss):
+def win(boss, link):
     global message_to_be_posted
     global soundfile_to_play
 
-    message_to_be_posted = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': Successfully cleared ' + boss + '.';
+    message_to_be_posted = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': Successfully cleared ' + boss + '.\n' + link;
     soundfile_to_play = 'win.mp3'
     client.run(secrets.discord_bot_token())
 
-def lose(boss):
+def lose(boss, link):
     global message_to_be_posted
     global soundfile_to_play
-    message_to_be_posted = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': Wiped at ' + boss + '.';
+    message_to_be_posted = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': Wiped at ' + boss + '.\n' + link;
     soundfile_to_play = 'lose.mp3'
     client.run(secrets.discord_bot_token())
 
