@@ -3,6 +3,7 @@ import sys
 import requests
 import json
 import raidheroes_scraper as rs
+import discord_poster as dp
 import time
 
 boss_code_map = {
@@ -31,6 +32,14 @@ guild_tag_map = {
     'Avantosik': 'Heim',
     'Verucas Illusion': 'VI',
 }
+
+main_guilds_list = [
+    'VIP',
+    'KA',
+    'VFX',
+    'SKGQ',
+    'LUCK',
+]
 
 print('New file acknowledged: ' + sys.argv[1])
 
@@ -94,17 +103,24 @@ if (boss_name in boss_code_map) :
         )
 
         print('\n\rPUT-ing');
+        print(str(logmetadata))
+        print('')
+
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         r = requests.put('https://logs.xn--jonathan.com/api/logmetadata', data=json.dumps(logmetadata), headers=headers)
         print('PUT response: ' + str(r))
+        print(r.text)
 
+    print('')
     if (data['success']):
-        print('Successful Boss Attempt.')
+        print('Successful Boss Attempt. Heckling discord if [LUCK].')
+        if guild_name == 'LUCK':
+            dp.win(boss_name)
     else:
-        print('Unsuccessful Boss Attempt.')
+        print('Unsuccessful Boss Attempt. Heckling discord if [LUCK].')
+        if guild_name == 'LUCK':
+            dp.lose(boss_name)
 
 
-    print(str(logmetadata))
 
-
-print('\n\r\n\r===============================================================\n\r\n\r')
+print('===============================================================\n\r\n\r')

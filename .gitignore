@@ -2,8 +2,9 @@
 **/node_modules/**
 html/logs/*
 html/logs
-secrets.txt
+**/secrets.txt
 notes
 js/build/*
 js/build
 **/__pycache__/**
+**/secrets.py

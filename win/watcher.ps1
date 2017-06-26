@@ -1,6 +1,6 @@
 # watch a file changes in the current directory,
 # execute all tests when a file is changed or renamed
-$env:PYTHONPATH = "C:\Anaconda\Lib\site-packages";
+$env:PYTHONPATH = "C:\Anaconda3\Lib\site-packages";
 $folder = "X:\Documents\arcdps\arcdps.cbtlogs"
 $filter = "*.evtc"
 
@@ -14,5 +14,5 @@ while($TRUE){
 		continue;
 	}
 
-	python.exe evtc_uploader.py $result.Name
+	c:\anaconda3\python.exe evtc_uploader.py $result.Name
 }
