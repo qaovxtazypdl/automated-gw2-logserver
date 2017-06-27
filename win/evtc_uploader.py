@@ -117,14 +117,16 @@ if (boss_name in boss_code_map) :
         print(logLink)
 
     print('')
+    time_string = data['bosstime'] // 60 + ':' + data['bosstime'] % 60
+    print('time: ' + )
     if (data['success']):
         print('Successful Boss Attempt. Heckling discord if [LUCK].')
         if guild_name == 'LUCK':
-            dp.win(boss_name, logLink)
+            dp.win(boss_name, time_string, logLink)
     else:
         print('Unsuccessful Boss Attempt. Heckling discord if [LUCK].')
         if guild_name == 'LUCK':
-            dp.lose(boss_name, logLink)
+            dp.lose(boss_name, time_string, logLink)
 
 
 
