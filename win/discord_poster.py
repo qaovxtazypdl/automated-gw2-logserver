@@ -72,7 +72,7 @@ def win(boss, time, link):
 def lose(boss, time, link):
     global message_to_be_posted
     global soundfile_to_play
-    message_to_be_posted = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': Wiped at ' + boss + '.\n' + link;
+    message_to_be_posted = datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ': Wiped at ' + boss + ' in ' + time + '.\n' + link;
     soundfile_to_play = 'lose.mp3'
     client.run(secrets.discord_bot_token())
 
