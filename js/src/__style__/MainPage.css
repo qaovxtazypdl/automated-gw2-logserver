@@ -61,7 +61,7 @@
   top: 151px;
   font-size: 14px;
   height: calc(100% - 151px);
-  width: 240px;
+  width: 280px;
   background-color: #e5edf1;
   font-family: arial;
   padding: 1px;
@@ -73,7 +73,7 @@
 .page-log-display {
   border: 0px;
   background-color: black;
-  margin-left: 243px;
+  margin-left: 283px;
   margin-top: 151px;
   height: calc(100% - 135px);
   color: white;

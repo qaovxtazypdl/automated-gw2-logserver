@@ -43,7 +43,7 @@ main_guilds_list = [
 
 print('New file acknowledged: ' + sys.argv[1])
 
-time.sleep(10)
+time.sleep(5)
 
 subprocess.call([
     'X:\\Documents\\arcdps\\autoparse\\raid_heroes.exe',
@@ -117,10 +117,10 @@ if (boss_name in boss_code_map) :
         print(logLink)
 
     print('')
-    time_string = data['bosstime'] // 60 + ':' + data['bosstime'] % 60
-    print('time: ' + )
+    time_string = str(data['bosstime'] // 60) + ':' + '0' if str(data['bosstime'] % 60 < 10 else '' + str(data['bosstime'] % 60)
+    print('time: ' + time_string)
     if (data['success']):
-        print('Successful Boss Attempt. Heckling discord if [LUCK].')
+        print('Successful Boss Attempt.')
         if guild_name == 'LUCK':
             dp.win(boss_name, time_string, logLink)
     else:

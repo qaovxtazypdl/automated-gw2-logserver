@@ -10,7 +10,7 @@ const pool = mysql.createPool({
   database: 'logs'
 });
 
-const defaultFields = ['id', 'DATE_FORMAT(time, \'%Y/%m/%d %h:%i\') as time', 'path', 'boss', 'class', 'bosstime'];
+const defaultFields = ['id', 'DATE_FORMAT(time, \'%Y/%m/%d %H:%i\') as time', 'path', 'boss', 'class', 'bosstime'];
 const validFields = new Set([
 	'id',
 	'path',
@@ -30,7 +30,7 @@ const BOSS_URL_SHORT = {
   "All": "All",
   "Vale Guardian": "Vale Guardian",
   "Gorseval the Multifarious": "Gorseval",
-  "Sabetha the Saboteur": "Sabethar",
+  "Sabetha the Saboteur": "Sabetha",
   "Slothasor": "Slothasor",
   "Matthias Gabrel": "Matthias",
   "Keep Construct": "Keep Construct",
