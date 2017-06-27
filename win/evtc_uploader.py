@@ -116,17 +116,17 @@ if (boss_name in boss_code_map) :
         logLink = json.loads(r.text)[0];
         print(logLink)
 
-    print('')
-    time_string = str(data['bosstime'] // 60) + ':' + '0' if str(data['bosstime'] % 60 < 10 else '' + str(data['bosstime'] % 60)
-    print('time: ' + time_string)
-    if (data['success']):
-        print('Successful Boss Attempt.')
-        if guild_name == 'LUCK':
-            dp.win(boss_name, time_string, logLink)
-    else:
-        print('Unsuccessful Boss Attempt. Heckling discord if [LUCK].')
-        if guild_name == 'LUCK':
-            dp.lose(boss_name, time_string, logLink)
+        print('')
+        time_string = str(data['bosstime'] // 60) + ':' + ('0' if (data['bosstime'] % 60 < 10) else '') + str(data['bosstime'] % 60)
+        print('time: ' + time_string)
+        if (data['success']):
+            print('Successful Boss Attempt.')
+            if guild_name == 'LUCK':
+                dp.win(boss_name, time_string, logLink)
+        else:
+            print('Unsuccessful Boss Attempt. Heckling discord if [LUCK].')
+            if guild_name == 'LUCK':
+                dp.lose(boss_name, time_string, logLink)
 
 
 
