@@ -64,7 +64,7 @@ function handleGET(req, res) {
 			FROM logmetadata
 			${where}
 			ORDER BY time DESC
-			LIMIT 50;
+			LIMIT 500;
 		`;
 
 		pool.query(sql, function (error, results, fields) {
