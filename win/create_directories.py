@@ -16,6 +16,8 @@ characters = [
     'The Eternal Bowlcut',
     'Progenitor Of Flame',
     'Alir Sarra',
+    'Emiralle',
+    'The Weeping Widow',
     'Druidic Recursion',
     'Yes This Is An Alt',
     'Cat Allergy',
@@ -26,6 +28,7 @@ characters = [
 
 bosses = [
     "All",
+    "Massive Kitty Golem",
     "Vale Guardian",
     "Gorseval the Multifarious",
     "Sabetha the Saboteur",
