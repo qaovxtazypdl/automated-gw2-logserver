@@ -41,93 +41,103 @@ main_guilds_list = [
     'LUCK',
 ]
 
-print('New file acknowledged: ' + sys.argv[1])
+def parse_and_upload(filepath, use_discord):
+    print('New file processing: ' + filepath)
 
-time.sleep(5)
+    subprocess.call([
+        'X:\\Documents\\arcdps\\autoparse\\raid_heroes.exe',
+        'X:\\Documents\\arcdps\\arcdps.cbtlogs\\' + filepath
+    ], cwd='X:\\Documents\\arcdps\\autoparse\\')
 
-subprocess.call([
-    'X:\\Documents\\arcdps\\autoparse\\raid_heroes.exe',
-    'X:\\Documents\\arcdps\\arcdps.cbtlogs\\' + sys.argv[1]
-], cwd='X:\\Documents\\arcdps\\autoparse\\')
+    boss_name, char_name, guild_name, file_evtc = filepath.split('\\');
 
-boss_name, char_name, guild_name, file_evtc = sys.argv[1].split('\\');
+    if (guild_name in guild_tag_map):
+        guild_name = guild_tag_map[guild_name];
+    else:
+        guild_name = 'null'
 
-if (guild_name in guild_tag_map):
-    guild_name = guild_tag_map[guild_name];
-else:
-    guild_name = 'null'
+    if (boss_name in boss_code_map) :
+        #scp the generated file
+        time_created = file_evtc.split('.')[0];
+        file_name = file_evtc.split('.')[0] + '_' + boss_code_map[boss_name] + '.html'
 
-if (boss_name in boss_code_map) :
-    #scp the generated file
-    time_created = file_evtc.split('.')[0];
-    file_name = file_evtc.split('.')[0] + '_' + boss_code_map[boss_name] + '.html'
+        data = rs.scrape_file(char_name, file_name)
+        alldpsdata = rs.scrape_all_data(boss_name, time_created, file_name)
 
-    data = rs.scrape_file(char_name, 'X:\\Documents\\arcdps\\autoparse\\' + file_name)
+        logmetadata = {
+            'boss': boss_name,
+            'name': char_name,
+            'guild': guild_name,
+            'time': time_created,
+            'path': file_name,
 
-    logmetadata = {
-        'path': file_name,
-        'boss': boss_name,
-        'name': char_name,
-        'guild': guild_name,
-        'time': time_created,
+            'bosstime': data['bosstime'],
+            'class': data['class'],
+            'cleavedmg': data['cleavedmg'],
+            'bossdmg': data['bossdmg'],
+            'rank': data['rank'],
+            'people': data['people'],
+            'success': 1 if data['success'] else 0,
+        }
 
-        'bosstime': data['bosstime'],
-        'class': data['class'],
-        'cleavedmg': data['cleavedmg'],
-        'bossdmg': data['bossdmg'],
-        'rank': data['rank'],
-        'people': data['people'],
-        'success': 1 if data['success'] else 0,
-    }
-
-    if (boss_name != 'Massive Kitty Golem') :
-        print('uploading...\n\r')
-        print(' '.join([
-            'rsync',
-            '-vz',
-            '--chmod=u+rwx,g+rwx,o+rwx',
-            '-e', '"ssh -i ~/.ssh/id_rsa"',
-            file_name,
-            'root@logs.xn--jonathan.com:/var/www/logs/html/logs'
-        ]))
-
-        subprocess.call(
-            [
+        if (boss_name != 'Massive Kitty Golem') :
+            print('uploading...\n\r')
+            print(' '.join([
                 'rsync',
                 '-vz',
                 '--chmod=u+rwx,g+rwx,o+rwx',
-                '-e', 'ssh -i C:/Users/Jonathan/.ssh/id_rsa',
+                '-e', '"ssh -i ~/.ssh/id_rsa"',
                 file_name,
                 'root@logs.xn--jonathan.com:/var/www/logs/html/logs'
-            ],
-            cwd='X:\\Documents\\arcdps\\autoparse\\',
-            shell=True
-        )
+            ]))
 
-        print('\n\rPUT-ing');
-        print(str(logmetadata))
-        print('')
+            subprocess.call(
+                [
+                    'rsync',
+                    '-vz',
+                    '--chmod=u+rwx,g+rwx,o+rwx',
+                    '-e', 'ssh -i C:/Users/Jonathan/.ssh/id_rsa',
+                    file_name,
+                    'root@logs.xn--jonathan.com:/var/www/logs/html/logs'
+                ],
+                cwd='X:\\Documents\\arcdps\\autoparse\\',
+                shell=True
+            )
 
-        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-        r = requests.put('https://logs.xn--jonathan.com/api/logmetadata', data=json.dumps(logmetadata), headers=headers)
+            print('\n\rPUT-ing');
+            print(str(logmetadata))
+            print('')
 
-        print('PUT response: ' + str(r))
-        print('PUT response: ' + r.text)
-        logLink = json.loads(r.text)[0];
-        print(logLink)
+            headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
+            r = requests.put('https://logs.xn--jonathan.com/api/logmetadata', data=json.dumps(logmetadata), headers=headers)
 
-        print('')
-        time_string = str(data['bosstime'] // 60) + ':' + ('0' if (data['bosstime'] % 60 < 10) else '') + str(data['bosstime'] % 60)
-        print('time: ' + time_string)
-        if (data['success']):
-            print('Successful Boss Attempt.')
-            if guild_name == 'LUCK':
-                dp.win(boss_name, time_string, logLink)
-        else:
-            print('Unsuccessful Boss Attempt. Heckling discord if [LUCK].')
-            if guild_name == 'LUCK':
-                dp.lose(boss_name, time_string, logLink)
+            print('PUT response: ' + str(r))
+            print('PUT response: ' + r.text)
+            logLink = json.loads(r.text)[0];
+            print(logLink)
+
+            print('')
+            time_string = str(data['bosstime'] // 60) + ':' + ('0' if (data['bosstime'] % 60 < 10) else '') + str(data['bosstime'] % 60)
+            print('time: ' + time_string)
+
+            if use_discord:
+                if (data['success']):
+                    print('Successful Boss Attempt. Posting to discord.')
+                    dp.win(boss_name, time_string, logLink)
+                else:
+                    print('Unsuccessful Boss Attempt. Heckling discord.')
+                    dp.lose(boss_name, time_string, logLink)
 
 
+            if (data['success'] or (boss_name == 'Deimos')):
+                for dpsd in alldpsdata:
+                    print(dpsd)
+                r = requests.put('https://logs.xn--jonathan.com/api/dpsdata', data=json.dumps(alldpsdata), headers=headers)
+                print('PUT response: ' + str(r))
+                print('PUT response: ' + r.text)
+    print('===============================================================\n\r\n\r')
 
-print('===============================================================\n\r\n\r')
+if (len(sys.argv) > 1):
+    print('New file notified: ' + sys.argv[1])
+    time.sleep(4)
+    parse_and_upload(sys.argv[1], len(sys.argv) == 3 and sys.argv[2] == 'post_discord')

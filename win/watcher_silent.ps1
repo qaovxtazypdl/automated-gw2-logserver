@@ -14,5 +14,5 @@ while($TRUE){
 		continue;
 	}
 
-	c:\anaconda3\python.exe evtc_uploader.py $result.Name post_discord
+	c:\anaconda3\python.exe evtc_uploader.py $result.Name
 }
