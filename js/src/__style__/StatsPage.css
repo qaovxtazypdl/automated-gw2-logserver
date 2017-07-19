@@ -31,6 +31,11 @@
   margin-bottom: 22px;
 }
 
+.stats-section {
+  margin-top: 192px;
+  height: calc(100% - 192px);
+}
+
 .boss-selector,
 .class-selector {
   font-size: 14px;

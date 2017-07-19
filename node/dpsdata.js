@@ -10,14 +10,22 @@ const pool = mysql.createPool({
   database: 'logs'
 });
 
-const defaultFields = ['id', 'DATE_FORMAT(time, \'%Y/%m/%d %H:%i\') as time', 'accountname', 'path', 'boss', 'class', 'bosstime', 'bossdps', 'cleavedps'];
+const defaultFields = ['id', 'DATE_FORMAT(time, \'%Y/%m/%d %H:%i\') as time', 'path', 'boss', 'accountname', 'class', 'bossdps', 'cleavedps', 'bosstime'];
 function handleGET(req, res) {
-		let where = `WHERE 1=1`
+		const query = url.parse(req.url, true).query;
+		const boss = encodeURIComponent(query['boss']);
+		const classname = encodeURIComponent(query['class']);
+
+		let where = `WHERE boss="${boss}"`
+		if (classname && classname != 'all') {
+			where += ` AND class="${classname}"`;
+		}
+
 		const sql = `
-			SELECT *
+			SELECT ${defaultFields.join(',')}
 			FROM dpsdata
 			${where}
-			ORDER BY time DESC
+			ORDER BY bossdps DESC
 			LIMIT 50;
 		`;
 
