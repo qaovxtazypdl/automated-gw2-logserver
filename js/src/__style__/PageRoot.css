@@ -1,0 +1,33 @@
+.header-title {
+  font-size: 28px;
+  width: 100%;
+  margin-top: 0px;
+  margin-bottom: 16px;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  font-family: arial;
+  z-index: 1;
+}
+
+.header-nav-link {
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+  border-bottom: 1px solid blue;
+  transition: all 0.25s ease;
+}
+
+.header-nav-link.selected, .header-nav-link:hover {
+  font-size: 24px;
+  border-bottom: 2px solid red;
+}
+
+.header-nav {
+  display: inline-block;
+  margin-left: 32px;
+}
+
+.header-nav-separator {
+  margin: 0 12px;
+}

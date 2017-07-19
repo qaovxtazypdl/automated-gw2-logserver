@@ -125,9 +125,6 @@ class MainPage extends React.Component {
     return (
       <div className="rc-MainPage">
         <nav className="page-header">
-          <h2 className="header-title">
-            {'KCaScTiVCrMn.6453\'s Automated Log Server'}
-          </h2>
           <a
             href="https://github.com/qaovxtazypdl/automated-gw2-logserver"
             className="github-link"

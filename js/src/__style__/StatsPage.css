@@ -1,4 +1,4 @@
-.rc-MainPage {
+.rc-StatsPage {
   margin: -8px;
 }
 
@@ -14,67 +14,57 @@
   padding: 2px 6px 2px 6px;
 }
 
-.page-header {
+.stats-page-header {
   position: fixed;
   top: 0px;
   width: 100%;
-  height: 110px;
+  height: 150px;
   background-color: #f7d8bb;
   font-family: arial;
   padding: 20px;
   border-bottom: 1px solid #8e8e8e;
 }
 
-.guild-row {
+.boss-row {
   height: 30px;
   margin-top: 50px;
+  margin-bottom: 22px;
 }
 
 .boss-selector,
-.guild-selector {
+.class-selector {
   font-size: 14px;
   margin-right: 28px;
   background-color: transparent;
   border-width: 0px;
-  border-bottom: 1px solid blue;
   padding: 4px;
   cursor: pointer;
   transition: all 0.25s ease;
 }
 .boss-selector:hover, .boss-selector.selected,
-.guild-selector:hover, .guild-selector.selected {
+.class-selector:hover, .class-selector.selected {
   font-size: 18px;
   font-weight: bold;
+}
+
+.boss-selector,
+.class-selector .class-sprite {
+  border-bottom: 1px solid blue;
+}
+.boss-selector:hover, .boss-selector.selected,
+.class-selector .class-sprite:hover, .class-selector.selected .class-sprite {
   border-bottom: 2px solid red;
 }
 
-
-.page-sidebar {
-  position: fixed;
-  left: 0px;
-  top: 151px;
-  font-size: 14px;
-  height: calc(100% - 151px);
-  width: 300px;
-  background-color: #e5edf1;
-  font-family: arial;
-  padding: 1px;
-  border-right: 1px solid #cecece;
-  overflow-y: auto;
-  overflow-x: hidden;
+.class-selector .class-sprite {
+  padding-bottom: 5px;
+}
+.class-selector .class-sprite:hover, .class-selector.selected .class-sprite {
+  height: 50px;
+  width: 50px;
+  margin-top: -14px;
 }
 
-.page-log-display {
-  border: 0px;
-  background-color: black;
-  margin-left: 303px;
-  margin-top: 151px;
-  height: calc(100% - 135px);
-  color: white;
-}
-
-.log-iframe {
-  height: 100%;
-  width: 100%;
-  border: 0px;
+.left-separator .class-sprite {
+  margin-left: 50px;
 }

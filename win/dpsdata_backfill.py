@@ -1,7 +1,7 @@
 import evtc_uploader as eu
 import os
 
-rootdir = 'X:\\Documents\\arcdps\\arcdps.cbtlogs';
+rootdir = 'X:\Documents\arcdps\arcdps.cbtlogs\Xera\The Weeping Widow\Silver Kings And Golden Queens';
 
 #boss_name, char_name, guild_name, file_evtc = sys.argv[1].split('\\');
 

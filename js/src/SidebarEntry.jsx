@@ -42,7 +42,6 @@ class SidebarEntry extends React.Component {
 
 SidebarEntry.propTypes = {
   entry: PropTypes.object.isRequired,
-  onClick: PropTypes.func.isRequired,
   linkto: PropTypes.string.isRequired,
   isActive: PropTypes.bool,
 };
