@@ -6,7 +6,7 @@ import url from 'url';
 import {Link} from 'react-router-dom'
 import request from 'browser-request';
 
-import SidebarEntry from './SidebarEntry.jsx';
+import StatTable from './StatTable.jsx';
 
 import css from './__style__/StatsPage.css';
 
@@ -66,7 +66,7 @@ class StatsPage extends React.Component {
   }
 
   requestData() {
-    const boss = Object.keys(BOSSES)[this.getActiveTabIndex()];
+    const boss = BOSSES[Object.keys(BOSSES)[this.getActiveTabIndex()]];
     const classname = this.getActiveClass();
 
     if (this.isRequesting ||
@@ -107,7 +107,7 @@ class StatsPage extends React.Component {
 
   render () {
     this.requestData();
-    const boss = Object.keys(BOSSES)[this.getActiveTabIndex()];
+    const boss = BOSSES[Object.keys(BOSSES)[this.getActiveTabIndex()]];
     const classname = this.getActiveClass();
 
     return (
@@ -178,9 +178,7 @@ class StatsPage extends React.Component {
           </div>
         </nav>
         <section className="stats-section">
-          {this.state.data && this.state.data[boss] &&
-            JSON.stringify(this.state.data[boss][classname])
-          }
+          <StatTable data={this.state.data && this.state.data[boss] && this.state.data[boss][classname]} />
         </section>
       </div>
     );
