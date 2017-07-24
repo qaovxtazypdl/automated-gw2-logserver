@@ -26,7 +26,7 @@ function handleGET(req, res) {
 			FROM dpsdata
 			${where}
 			ORDER BY bossdps DESC
-			LIMIT 50;
+			LIMIT 60;
 		`;
 
 		pool.query(sql, function (error, results, fields) {

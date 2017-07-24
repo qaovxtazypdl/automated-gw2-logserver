@@ -89,7 +89,11 @@ class StatsPage extends React.Component {
       if (er) throw er;
       let response = JSON.parse(res.response);
       response.forEach(entry =>
-        Object.keys(entry).forEach(key => entry[key] = decodeURIComponent(entry[key]))
+        Object.keys(entry).forEach(key => {
+          if (typeof entry[key] === 'string') {
+            entry[key] = decodeURIComponent(entry[key]);
+          }
+        })
       );
 
       const newdata = this.state.data;

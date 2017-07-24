@@ -2,6 +2,18 @@
   overflow: hidden;
 }
 
+body {
+  margin: 0;
+}
+
 #app_root * {
   transition: all 0.25s ease;
+}
+
+.-pagination {
+  height: 50px;
+}
+
+.rt-td {
+  height: 34px;
 }
