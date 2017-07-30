@@ -7,7 +7,7 @@
 #        'rank': 1,
 #        'people': 1,
 def scrape_file(charname, filename):
-    f = open('X:\\Documents\\arcdps\\autoparse\\' + filename, 'r')
+    f = open(filename, 'r')
     relevant_lines = [];
 
     recording = False
@@ -45,7 +45,7 @@ def scrape_file(charname, filename):
 
 # accountname, class, bossdmg, cleavedmg, bosstime
 def scrape_all_data(boss, time_created, filename):
-    f = open('X:\\Documents\\arcdps\\autoparse\\' + filename, 'r')
+    f = open(filename, 'r')
     relevant_lines = [];
 
     recording = False
@@ -71,7 +71,7 @@ def scrape_all_data(boss, time_created, filename):
     maxtime = 0
     for line in relevant_lines:
         lineparse = {}
-        lineparse['path'] = filename
+        lineparse['path'] = filename.split('\\')[-1]
         lineparse['accountname'] = line[3][4:]
         lineparse['class'] = line[1][line[1].index('alt="') + 5:line[1].index('" data-toggle')].lower()
         lineparse['bossdmg'] = int(line[4][line[4][:-1].rfind('>') + 1:-7])

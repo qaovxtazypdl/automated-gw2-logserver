@@ -61,8 +61,7 @@ def parse_and_upload(filepath, use_discord):
         time_created = file_evtc.split('.')[0];
         file_name = file_evtc.split('.')[0] + '_' + boss_code_map[boss_name] + '.html'
 
-        data = rs.scrape_file(char_name, file_name)
-        alldpsdata = rs.scrape_all_data(boss_name, time_created, file_name)
+        data = rs.scrape_file(char_name, 'X:\\Documents\\arcdps\\autoparse\\' + file_name)
 
         logmetadata = {
             'boss': boss_name,
@@ -130,6 +129,7 @@ def parse_and_upload(filepath, use_discord):
 
 
             if (data['success'] or (boss_name == 'Deimos')):
+                alldpsdata = rs.scrape_all_data(boss_name, time_created, 'X:\\Documents\\arcdps\\autoparse\\' + file_name)
                 for dpsd in alldpsdata:
                     print(dpsd)
                 r = requests.put('https://logs.xn--jonathan.com/api/dpsdata', data=json.dumps(alldpsdata), headers=headers)
